@@ -1,27 +1,35 @@
 <template>
-  <div class="container">
+  <form class="container" @submit.prevent="handleSubmit">
     <input type="email" placeholder="email" />
     <input type="text" placeholder="password" v-model="password" />
     <input type="text" placeholder="passwordCheck" v-model="passwordCheck" />
-
-    <!-- <label class="passwordCheck">{{ password }}</label> -->
-    <button type="submit" @click="loginFail">sign up</button>
-  </div>
+    <button type="submit">sign up</button>
+    <div v-if="toShowErrorMessege">비밀번호를 다시 입력해주세요.</div>
+  </form>
 </template>
 
 <script setup lang="ts">
+import axios from 'axios'
 import { ref } from 'vue'
 
 const password = ref('')
 const passwordCheck = ref('')
+const toShowErrorMessege = ref(false)
 
-const loginFail = () => {
+const checkPassword = () => {
   if (password.value == passwordCheck.value) {
-    return true // 추후 수정
+    toShowErrorMessege.value = false
+    return true
   } else {
-    console.warn('비밀번호가 틀렸습니다.')
+    toShowErrorMessege.value = true
     return false
   }
+}
+const handleSubmit = () => {
+  if (!checkPassword()) return
+  // 같으면 요청보내기(로그인)
+  axios.postForm('http://localhost:5173/posts/login')
+  console.log('성공')
 }
 </script>
 
