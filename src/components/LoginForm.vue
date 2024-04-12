@@ -1,10 +1,11 @@
 <template>
-  <form class="container" @submit.prevent="handleSubmit">
-    <input type="email" placeholder="email" />
-    <input type="text" placeholder="password" v-model="password" />
-    <input type="text" placeholder="passwordCheck" v-model="passwordCheck" />
-    <button type="submit">sign up</button>
-    <div v-if="toShowErrorMessege">비밀번호를 다시 입력해주세요.</div>
+  <form @submit.prevent="handleLogin">
+    <div class="container">
+      <input type="text" placeholder="email" v-model="email" />
+      <input type="text" placeholder="password" v-model="password" />
+      <button type="submit">Login</button>
+      <div>{{ message }}</div>
+    </div>
   </form>
 </template>
 
@@ -12,25 +13,40 @@
 import axios from 'axios'
 import { ref } from 'vue'
 
+const email = ref('')
 const password = ref('')
-const passwordCheck = ref('')
-const toShowErrorMessege = ref(false)
+const isSuccess = ref(false)
+const message = ref('')
 
-const checkPassword = () => {
-  if (password.value == passwordCheck.value) {
-    toShowErrorMessege.value = false
-    return true
-  } else {
-    toShowErrorMessege.value = true
-    return false
+// const nullChecked = () => {
+//   if (email.value === null) {
+//     isSuccess.value = false
+//     message.value = '아이디,비번입력'
+//     return
+//   }
+// }
+
+// 로그인 요청 보내기
+const handleLogin = async () => {
+  if (email.value === '' || password.value === '') {
+    message.value = '이메일과 비밀번호를 입력해주세요.'
+    return
+  }
+
+  try {
+    await axios.post('https://jsonplaceholder.typicode.com/users', {
+      email: email.value,
+      password: password.value
+    })
+    isSuccess.value = true
+    message.value = 'success'
+  } catch (e: any) {
+    isSuccess.value = false
+    message.value = 'failed'
   }
 }
-const handleSubmit = () => {
-  if (!checkPassword()) return
-  // 같으면 요청보내기(로그인)
-  axios.postForm('http://localhost:5173/posts/login')
-  console.log('성공')
-}
+
+// 계정정보 맞는지 체크(회원가입한 계정과 로그인한 계정이 맞는지.. 나중에)
 </script>
 
 <style scoped>
@@ -39,14 +55,5 @@ const handleSubmit = () => {
   justify-content: center;
   flex-direction: column;
   gap: 20px;
-}
-
-.passwordCheck {
-  background-color: white;
-  width: auto;
-  height: 23px;
-  border-style: solid;
-  border-width: 1px;
-  border-color: gray;
 }
 </style>

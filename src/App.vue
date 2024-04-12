@@ -1,11 +1,11 @@
 <template>
-  <div>
-    <LogingForm />
-  </div>
+  <div><SignUp /></div>
+  <div><LoginForm /></div>
 </template>
 
 <script setup lang="ts">
-import LogingForm from './components/LoginForm.vue'
+import SignUp from './components/auth/SignUp.vue'
+import LoginForm from './components/LoginForm.vue'
 </script>
 
 <style scoped></style>
