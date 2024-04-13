@@ -6,6 +6,7 @@ export const useLogin = () => {
   const user = ref<TUser>({ email: '', password: '' })
   const isError = ref(false)
   const isSuccess = ref(false)
+  const isLoading = ref(false)
   const message = ref('')
 
   const login = async () => {
@@ -13,6 +14,8 @@ export const useLogin = () => {
       message.value = '이메일과 비밀번호를 입력해주세요.'
       return
     }
+
+    isLoading.value = true
 
     try {
       await axios.post('https://jsonplaceholder.typicode.com/users', user.value)
@@ -22,7 +25,8 @@ export const useLogin = () => {
       isError.value = true
       message.value = 'Login failed'
     }
+    isLoading.value = false
   }
 
-  return { user, isError, isSuccess, message, login }
+  return { user, isError, isSuccess, isLoading, message, login }
 }
