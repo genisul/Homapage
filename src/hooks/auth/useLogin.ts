@@ -1,6 +1,9 @@
+import router from '@/router'
+import { useAuthStore } from '@/store/auth/useAuthStore'
 import type { TUser } from '@/types/User'
 import axios from 'axios'
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
 export const useLogin = () => {
   const user = ref<TUser>({ email: '', password: '' })
@@ -8,6 +11,9 @@ export const useLogin = () => {
   const isSuccess = ref(false)
   const isLoading = ref(false)
   const message = ref('')
+
+  const { signIn } = useAuthStore()
+  const router = useRouter()
 
   const login = async () => {
     if (user.value.email === '' || user.value.password === '') {
@@ -21,6 +27,13 @@ export const useLogin = () => {
       await axios.post('https://jsonplaceholder.typicode.com/users', user.value)
       isSuccess.value = true
       message.value = 'Login Success'
+
+      const { signIn } = useAuthStore()
+
+      if (isSuccess.value) {
+        signIn()
+        router.push({ name: 'home' })
+      }
     } catch (e: any) {
       isError.value = true
       message.value = 'Login failed'
@@ -28,5 +41,5 @@ export const useLogin = () => {
     isLoading.value = false
   }
 
-  return { user, isError, isSuccess, isLoading, message, login }
+  return { user, isError, isSuccess, isLoading, message, signIn, login }
 }
