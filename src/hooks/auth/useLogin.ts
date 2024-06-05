@@ -24,7 +24,7 @@ export const useLogin = () => {
     isLoading.value = true
 
     try {
-      await axios.post('https://jsonplaceholder.typicode.com/users', user.value)
+      await axios.post('http://localhost:3000/auth/signin', user.value)
       isSuccess.value = true
       message.value = 'Login Success'
 

@@ -19,7 +19,7 @@ export const useSignUp = () => {
     isLoading.value = true
 
     try {
-      await axios.post('https://jsonplaceholder.typicode.com/users', user.value)
+      await axios.post('http://localhost:3000/auth/signup', user.value)
       isSuccess.value = true
       message.value = 'Signup success!!'
     } catch (e: any) {
