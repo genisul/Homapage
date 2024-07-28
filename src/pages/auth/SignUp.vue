@@ -19,7 +19,7 @@
       </form>
       <p class="inter-regular phrase-logoin">
         <span>After signing up for membership</span>
-        <a>Go to Loging</a>
+        <router-link to="/login">Go to Loging</router-link>
       </p>
     </div>
   </main>
@@ -27,6 +27,7 @@
 
 <script setup lang="ts">
 import { useSignUp } from '@/hooks/auth/useSignUp'
+import { RouterLink } from 'vue-router'
 
 // 분해할당
 const { user, passwordCheck, isLoading, message, signup } = useSignUp()

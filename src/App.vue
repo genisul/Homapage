@@ -1,12 +1,12 @@
 <template>
   <div>
     <router-view></router-view>
-    <SignUp></SignUp>
+    <!-- <InputTodo></InputTodo> -->
   </div>
 </template>
 
 <script setup lang="ts">
-import SignUp from './pages/auth/SignUp.vue'
+import InputTodo from './components/InputTodo.vue'
 </script>
 
 <style scoped></style>

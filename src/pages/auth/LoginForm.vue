@@ -6,7 +6,6 @@
           <h1 class="londrina-shadow-regular logo">TODO</h1>
           <h3 class="inter-semibold phrase-1">Create an account</h3>
           <h4 class="inter-regular phrase-2">Enter your email to sign up for this app</h4>
-
           <div class="input-box">
             <input type="text" placeholder="email" v-model="user.email" />
             <input type="password" placeholder="password" v-model="user.password" />
@@ -18,7 +17,7 @@
       </form>
       <p class="inter-regular phrase-signup">
         <span>you don't have an account.</span>
-        <a>Go to sign up</a>
+        <router-link to="/signup">Go to sign up</router-link>
       </p>
     </div>
     <!-- <button @click="router.push({ name: 'signup' })">회원가입</button> -->
@@ -27,7 +26,7 @@
 
 <script setup lang="ts">
 import { useLogin } from '@/hooks/auth/useLogin'
-import { useRouter } from 'vue-router'
+import { useRouter, RouterLink } from 'vue-router'
 const router = useRouter()
 
 const { user, isLoading, message, login } = useLogin()
